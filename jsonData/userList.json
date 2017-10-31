@@ -1,0 +1,13 @@
+//模拟用户
+{
+	"data" : [
+		{
+			"username" : "wangsir",
+			"password" : "123123"
+		},{
+			"admin" : "admin",
+			"password" : "111111"
+		}
+	],
+	"success" : true
+}

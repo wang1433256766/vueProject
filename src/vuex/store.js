@@ -1,0 +1,1 @@
+import Vue from 'vue'import Vuex from 'vuex'Vue.use(Vuex)const store = new Vuex.Store({	state: {		token: localStorage.getItem('user_token') || 'AUTH_TOKEN'	},	mutations: {		setToken(state,user_token){			localStorage.setItem('user_token',user_token);		}	}})export default store
