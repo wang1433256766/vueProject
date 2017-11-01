@@ -2,7 +2,7 @@
 	<div class="wrap">
 		<div class="navbar">
 			<img src="../../assets/nav-logo.png" alt="photo">
-			<div class="account"><a>用户名</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a @click="logout">注销</a></div>
+			<div class="account"><a @click="myaccount">{{username}}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a @click="logout">{{registerOrLogout}}</a></div>
 		</div>
 		<div class="sidebar">
 			<ul>
@@ -23,13 +23,51 @@
 </template>
 
 <script>
+import api from '@/fetch/api'
+
+let Base64 = require('js-base64').Base64;
+let username = '登录';
+let registerOrLogout = '注册';
+
 export default {
   name: 'layout',
+  data(){
+	if(localStorage.getItem('user_token')){
+		username = Base64.decode(localStorage.getItem('user_token').split('.')[1]);
+		username = eval('('+username+')').sub;
+		registerOrLogout = '注销';
+	}else{
+		username = '登录';
+		registerOrLogout = "注册";
+	}
+  	return {
+  		username:username,
+  		registerOrLogout:registerOrLogout
+  	}
+  },
   methods: {
-  	  logout(){
-  	  	  localStorage.removeItem("setToken");
-  	  	  this.$router.replace('/');
-  	  }
+  	myaccount(){
+  		if(localStorage.getItem('user_token')){
+  			console.log('个人中心');
+  		}else{
+  			this.$router.replace('/login');
+  		}
+  	},
+  	logout(){
+  	  	if(localStorage.getItem('user_token')){
+  	  		api.Logout()
+  	  			.then(res => {
+  	  				localStorage.removeItem("user_token");
+  	  				this.$router.replace('/login');
+  	  			})
+  	  			.catch(error => {
+  	  				console.log(error);
+  	  			})
+  	  		
+  	  	}else{
+  	  		this.$router.replace('/register');
+  	  	}
+  	}
   }
 }
 </script>

@@ -1,75 +1,158 @@
 <template>
 	<div class="wrap">
 		<el-form :inline="true" :model="formInline" class="demo-form-inline">
-          <el-form-item label="">
-            <el-input v-model="formInline.name" placeholder="请输入文件名"></el-input>
-          </el-form-item>
-          <el-button type="primary" @click="onSubmit">查询</el-button>
+            <el-form-item label="时间范围">
+	            <el-date-picker
+				    v-model="formInline.timeRange"
+				    type="daterange"
+				    :picker-options="pickerOptions"
+				    range-separator="至"
+				    start-placeholder="开始日期"
+				    end-placeholder="结束日期"
+				    align="right">
+				</el-date-picker>
+            </el-form-item>
+            <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form>
 	    <!--表格-->
-        <el-table
-          :data="tableData"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="name"
-            label="文件名">
-          </el-table-column>
-          <el-table-column
-            prop="size"
-            label="文件大小">
-          </el-table-column>
-          <el-table-column
-            prop="createTime"
-            label="创建时间">
-          </el-table-column>
-          <el-table-column label="下载">
-            <template scope="scope">
-              <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">下载</el-button>
-            </template>
-          </el-table-column>
+        <el-table :data="logData" border style="width: 100%">
+
+            <el-table-column label="操作人员">
+				<template scope="scope">
+					<span>{{scope.row.logFrom}}</span>
+				</template>
+            </el-table-column>
+
+            <el-table-column label="操作主机">
+            	<template scope="scope">
+					<span>{{scope.row.ip}}</span>
+				</template>
+            </el-table-column>
+
+            <el-table-column label="操作时间">
+            	<template scope="scope">
+					<span>{{scope.row.createtime | time}}</span>
+				</template>
+            </el-table-column>
+
+            <el-table-column label="操作内容">
+            	<template scope="scope">
+					<span>{{scope.row.logName}}</span>
+				</template>
+            </el-table-column>
+
+            <el-table-column label="操作详情">
+            	<template scope="scope">
+					<span>{{scope.row.logMsg}}</span>
+				</template>
+            </el-table-column>
+
         </el-table>
+
         <div class="block">
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-size="100"
-            layout="prev, pager, next, jumper"
-            :total="1000">
-          </el-pagination>
+	        <el-pagination
+	            @size-change="handleSizeChange"
+	            @current-change="handleCurrentChange"
+	            :current-page="currentPage"
+	            :page-sizes="[5,10,20,30]" 
+	            :page-size="limit"
+	            layout="total, sizes, prev, pager, next, jumper"
+	            :total="total">
+	        </el-pagination>
         </div>
 	</div>
 </template>
 
 <script>
+import api from '@/fetch/api'
+
 export default {
-  name: 'optLog',
-  data(){
+    name: 'optLog',
+    data(){
 	  	return {
-	  		formInline: {name:''},
-	  		currentPage: 4,
-	  		tableData: [{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'}]
+	  		pickerOptions: {
+	          shortcuts: [{
+	            text: '最近一周',
+	            onClick(picker) {
+	              const end = new Date();
+	              const start = new Date();
+	              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+	              picker.$emit('pick', [start, end]);
+	            }
+	          }, {
+	            text: '最近一个月',
+	            onClick(picker) {
+	              const end = new Date();
+	              const start = new Date();
+	              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+	              picker.$emit('pick', [start, end]);
+	            }
+	          }, {
+	            text: '最近三个月',
+	            onClick(picker) {
+	              const end = new Date();
+	              const start = new Date();
+	              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+	              picker.$emit('pick', [start, end]);
+	            }
+	          }]
+	        },
+	  		formInline: {timeRange:''},
+	  		currentPage: 1,
+	  		limit: 5,
+	  		total: null,
+	  		logData: []
 	  	}
 	},
+	created(){
+		this.getList()
+	},
+	filters:{
+		time : function (value) {
+			var now = new Date(value);
+			var year=now.getFullYear(); 
+		    var month=now.getMonth()+1; 
+		    var date=now.getDate(); 
+		    var hour=now.getHours(); 
+		    var minute=now.getMinutes(); 
+		    var second=now.getSeconds(); 
+		    return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+	    }
+	},
 	methods:{
+		getList(){
+			let startTime = this.formInline.timeRange ? new Date(this.formInline.timeRange[0]).getFullYear() + '-' + (new Date(this.formInline.timeRange[0]).getMonth() + 1) + '-' + new Date(this.formInline.timeRange[0]).getDate() : '';
+			let endTime = this.formInline.timeRange ? new Date(this.formInline.timeRange[1]).getFullYear() + '-' + (new Date(this.formInline.timeRange[1]).getMonth() + 1) + '-' + new Date(this.formInline.timeRange[1]).getDate() : '';
+			let params = {
+				startTime: startTime,
+				endTime: endTime,
+				page: this.currentPage,
+				size: this.limit,
+				sidx: 'createtime',
+				sord: 'desc'
+        	};
+			api.GetLogList(params)
+				.then(res => {
+					if(res.status == 1){
+						this.logData = res.data.list;
+						this.total = res.data.total;
+					}
+				})
+				.catch(error => {
+					console.log(error)
+				})
+		},
 		onSubmit(){
-
+			this.currentPage = 1;
+	        this.getList();
 		},
 		handleSizeChange(val) {
-	        console.log(`每页 ${val} 条`);
+	        this.limit = val;
+      		this.getList();
 	    },
 	    handleCurrentChange(val) {
 	        this.currentPage = val;
-	        console.log(`当前页: ${val}`);
+	        this.getList();
 	    }
 	}
 }	

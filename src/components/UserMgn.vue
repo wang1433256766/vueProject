@@ -1,75 +1,106 @@
 <template>
 	<div class="wrap">
 		<el-form :inline="true" :model="formInline" class="demo-form-inline">
-          <el-form-item label="">
-            <el-input v-model="formInline.name" placeholder="请输入文件名"></el-input>
-          </el-form-item>
-          <el-button type="primary" @click="onSubmit">查询</el-button>
+            <el-form-item label="">
+	            <el-input v-model="formInline.username" placeholder="请输入用户名"></el-input>
+            </el-form-item>
+            <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form>
 	    <!--表格-->
-        <el-table
-          :data="tableData"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="name"
-            label="文件名">
-          </el-table-column>
-          <el-table-column
-            prop="size"
-            label="文件大小">
-          </el-table-column>
-          <el-table-column
-            prop="createTime"
-            label="创建时间">
-          </el-table-column>
-          <el-table-column label="下载">
-            <template scope="scope">
-              <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">下载</el-button>
-            </template>
-          </el-table-column>
+        <el-table :data="userList" border style="width: 100%">
+
+            <el-table-column label="用户名">
+				<template scope="scope">
+					<span>{{scope.row.username}}</span>
+				</template>
+            </el-table-column>
+
+            <el-table-column label="邮箱">
+            	<template scope="scope">
+					<span>{{scope.row.email}}</span>
+				</template>
+            </el-table-column>
+
+            <el-table-column label="用户角色">
+            	<template scope="scope">
+					<span>{{scope.row.roleArr}}</span>
+				</template>
+            </el-table-column>
+
+            <el-table-column label="授权管理员">
+            	<template scope="scope">
+	              	<el-button type="primary" size="small" @click="handleRole(scope.$index, scope.row)">授权</el-button>
+	            </template>
+            </el-table-column>
+
         </el-table>
+
         <div class="block">
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-size="100"
-            layout="prev, pager, next, jumper"
-            :total="1000">
-          </el-pagination>
+	        <el-pagination
+	            @size-change="handleSizeChange"
+	            @current-change="handleCurrentChange"
+	            :current-page="currentPage"
+	            :page-sizes="[5,10,20,30]" 
+	            :page-size="limit"
+	            layout="total, sizes, prev, pager, next, jumper"
+	            :total="total">
+	        </el-pagination>
         </div>
 	</div>
 </template>
 
 <script>
+import api from '@/fetch/api'
+
 export default {
   name: 'userMgn',
   data(){
 	  	return {
-	  		formInline: {name:''},
-	  		currentPage: 4,
-	  		tableData: [{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'}]
+	  		formInline: {username:''},
+	  		currentPage: 1,
+	  		limit: 10,
+	  		total: null,
+	  		userList: null
 	  	}
 	},
+	created(){
+		this.getUserList()
+	},
 	methods:{
+		getUserList(){
+			let params = {
+				page: this.currentPage,
+				size: this.limit,
+				sidx: 'id',
+				sord: 'desc'
+        	};
+        	console.log(params);
+			api.GetUserList(params)
+				.then(res => {
+					console.log(res.data);
+					if(res.status == 1){
+						this.userList = res.data.list;
+						this.total = res.data.total;
+					}
+				})
+				.catch(error => {
+					console.log(error)
+				})
+		},
 		onSubmit(){
-
+			this.currentPage = 1;
+	        this.getUserList();
 		},
 		handleSizeChange(val) {
-	        console.log(`每页 ${val} 条`);
+	        this.limit = val;
+      		this.getUserList();
 	    },
 	    handleCurrentChange(val) {
 	        this.currentPage = val;
-	        console.log(`当前页: ${val}`);
+	        this.getUserList();
+	    },
+	    handleRole(index,value){
+	    	console.log(index+'---'+value);
 	    }
 	}
 }	

@@ -39,8 +39,6 @@
 import api from '@/fetch/api'
 import store from '@/vuex/store'
 
-let Base64 = require('js-base64').Base64;
-
 export default {
   name:'login',
   data(){
@@ -69,10 +67,6 @@ export default {
             .then(res => {
               if(res.status == 1) {
                 this.$store.commit('setToken',res.data);
-                //localStorage.removeItem("currentUser_token");
-                //console.log(this.$store.state.currentUser);
-                // var token = Base64.decode(this.$store.state.token.split('.')[1]);
-                // token = eval("(" + token + ")")
                 this.$router.replace('/fileMgn');
               }
             })

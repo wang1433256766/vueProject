@@ -6,6 +6,7 @@ import store from '@/vuex/store'
 axios.defaults.timeout = 5000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 axios.defaults.baseURL = 'http://miaoto.com.cn:8084/';
+//axios.defaults.baseURL = 'http://192.168.1.104:8084/';
 axios.defaults.headers.common['Authorization'] = store.state.token;
 
 //POST传参序列化
@@ -44,7 +45,7 @@ export function fetch_post(url, params) {
 
 export function fetch_get(url, params) {
     return new Promise((resolve, reject) => {
-        axios.get(url, params)
+        axios.get(url, {params})
             .then(response => {
                 resolve(response.data);
             }, err => {
@@ -74,7 +75,30 @@ export default {
     /**
      * 发送注册验证码
      */
-     RegistVerifiCode(tellphone) {
-         return fetch_post('/users/api/registVerifiCode', {tellphone: tellphone})
-     }
+    RegistVerifiCode(tellphone) {
+        return fetch_post('/users/api/registVerifiCode', {tellphone: tellphone})
+    },
+
+    /**
+     * 登出
+     */
+    Logout(){
+        return fetch_post('/auth/logout')
+    },
+
+    /**
+     * 获取操作日志
+     */
+    GetLogList(params){
+        return fetch_post('/sysLog/list', params)
+    },
+
+    /**
+     * [GetUserList 获取用户列表]
+     * @param {[type]} params [description]
+     */
+    GetUserList(params){
+        return fetch_get('/userinfo/list', params)
+    }
+     
 }
