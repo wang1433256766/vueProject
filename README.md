@@ -18,4 +18,9 @@ npm run build
 npm run build --report
 ```
 
+## Tips
+``` bash
+Demo 对应的源码在backup分支，master分支还在改动中...
+```
+
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
