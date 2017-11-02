@@ -74,10 +74,8 @@ export default {
 				sidx: 'id',
 				sord: 'desc'
         	};
-        	console.log(params);
 			api.GetUserList(params)
 				.then(res => {
-					console.log(res.data);
 					if(res.status == 1){
 						this.userList = res.data.list;
 						this.total = res.data.total;

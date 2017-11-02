@@ -87,7 +87,6 @@ export default {
 	.navbar img{
 		vertical-align: middle;
 		float: left;
-		margin-top: 5px;
 	}
 	.navbar .account{
 		float: right;

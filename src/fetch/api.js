@@ -1,16 +1,16 @@
 import axios from 'axios'
 import qs from 'qs'
-import store from '@/vuex/store'
 
 // axios 配置
 axios.defaults.timeout = 5000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 axios.defaults.baseURL = 'http://miaoto.com.cn:8084/';
-//axios.defaults.baseURL = 'http://192.168.1.104:8084/';
-axios.defaults.headers.common['Authorization'] = store.state.token;
+//axios.defaults.baseURL = 'http://192.168.1.105:8084/';
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('user_token')?localStorage.getItem('user_token') : 'AUTH_TOKEN';
 
 //POST传参序列化
 axios.interceptors.request.use((config) => {
+    config.headers.Authorization = localStorage.getItem('user_token')?localStorage.getItem('user_token') : 'AUTH_TOKEN';
     if(config.method  === 'post'){
         config.data = qs.stringify(config.data);
     }
@@ -99,6 +99,30 @@ export default {
      */
     GetUserList(params){
         return fetch_get('/userinfo/list', params)
+    },
+
+    /**
+     * [GetArrangeList 获取安排列表]
+     * @param {[type]} params [description]
+     */
+    GetArrangeList(params){
+        return fetch_get('/arrange/query', params)
+    },
+
+    /**
+     * [SetArrange 单个安排人员]
+     * @param {[type]} params [description]
+     */
+    SetArrange(params){
+        return fetch_post('/arrange/set', params)
+    },
+
+    /**
+     * [SetArrangeAll 批量安排人员]
+     * @param {[type]} params [description]
+     */
+    SetArrangeAll(params){
+        return fetch_post('/arrange/list_set', params)
     }
      
 }
