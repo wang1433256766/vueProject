@@ -21,7 +21,7 @@ axios.interceptors.request.use((config) => {
 
 //返回状态判断
 axios.interceptors.response.use((res) =>{
-    if(res.data.status != 1){
+    if(res.data.status != 1 && res.data.status != 0){
         return Promise.reject(res);
     }
     return res;
@@ -99,6 +99,37 @@ export default {
      */
     GetUserList(params){
         return fetch_get('/userinfo/list', params)
+    },
+
+    /**
+     * [UpdateUserStates 用户授权]
+     * @param {[type]} params [description]
+     */
+    UpdateUserStatus(params){
+        return fetch_post('/userinfo/update', params)
+    },
+
+    /**
+     * [UpdateUserStatusSel 用户批量授权]
+     * @param {[type]} params [description]
+     */
+    UpdateUserStatusSel(params){
+        return fetch_post('/userinfo/updateList', params)
+    },
+
+    /**
+     * [GetRoleList 获取所有角色]
+     */
+    GetRoleList(){
+        return fetch_get('/role/list')
+    },
+
+    /**
+     * [SetRoles 设置角色]
+     * @param {[type]} params [description]
+     */
+    SetRoles(params){
+        return fetch_post('/userRole/set', params)
     },
 
     /**

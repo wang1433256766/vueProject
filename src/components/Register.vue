@@ -23,12 +23,17 @@
               <el-input v-model="inputObj.email" placeholder="请输入邮箱"></el-input>
             </el-col>
           </el-form-item>
-          <el-form-item label="" prop="verificationCode">
+          <!-- <el-form-item label="" prop="verificationCode">
             <el-col :span="9">
               <el-input type="password" v-model="inputObj.verificationCode" placeholder="请输入验证码"></el-input>
             </el-col>
             <el-col :span="8" :offset="1">
               <el-button type="primary" style="width:100%;background:#00589c;border-color:#00589c;" @click="getCode">获取验证码</el-button>
+            </el-col>
+          </el-form-item> -->
+          <el-form-item label="用户名" prop="username">
+            <el-col :span="18">
+              <el-input v-model="inputObj.username" placeholder="请输入用户名"></el-input>
             </el-col>
           </el-form-item>
           <el-form-item label="密码" prop="password">
@@ -76,7 +81,7 @@ export default {
     return {
       inputObj : {
         email: '',
-        verificationCode: '',
+        username: '',
         password: '',
         repwd: ''
       },
@@ -95,13 +100,14 @@ export default {
       if(this.inputObj.email && this.inputObj.password){
         let params = {
           email:this.inputObj.email,
+          username: this.inputObj.username,
           pwd: this.inputObj.password,
-          repwd: this.inputObj.repwd,
-          verificationCode: this.inputObj.verificationCode
+          repwd: this.inputObj.repwd
         }
         api.Register(params)
             .then(res => {
-              if(res.status == 1) {
+              console.log(res);
+              if(res.status == 0) {
                 this.$router.replace('/login');
               }
             })

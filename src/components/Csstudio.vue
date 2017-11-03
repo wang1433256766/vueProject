@@ -1,13 +1,20 @@
 <template>
 	<div class="wrap">
-		Hello<br>Hello<br>Hello<br>Hello<br>Hello<br>Hello<br>
-		Hello<br>Hello<br>Hello<br>Hello<br>Hello<br>Hello<br>
+		<!-- <v-html-panel :url.asyc="url1"></v-html-panel> -->
 	</div>
 </template>
 
 <script>
 export default {
   name: 'csstudio'
+  // data(){
+  // 	return {
+  // 		url1: ''
+  // 	}
+  // },
+  // mounted() {
+  // 	//this.url1 = 'http://miaoto.com.cn:8082'
+  // }
 }	
 </script>
 

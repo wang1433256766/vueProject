@@ -37,7 +37,7 @@
 
             <el-table-column label="操作内容">
             	<template scope="scope">
-					<span>{{scope.row.logName}}</span>
+					<span>{{scope.row.logName | switchHan}}</span>
 				</template>
             </el-table-column>
 
@@ -117,6 +117,27 @@ export default {
 		    var minute=now.getMinutes(); 
 		    var second=now.getSeconds(); 
 		    return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+	    },
+	    switchHan : function(value){
+	    	var logContent = '';
+	    	if(value == 'LOGIN'){
+	    		logContent = '登录';
+	    	}else if(value == 'LOGOUT'){
+	    		logContent = '登出';
+	    	}else if(value == 'REGISTER'){
+	    		logContent = '注册';
+	    	}else if(value == 'FILEDOWNLOAD'){
+	    		logContent = '文件下载';
+	    	}else if(value == 'FILEUPDATE'){
+	    		logContent = '文件修改(删除)';
+	    	}else if(value == 'ARRANGE'){
+	    		logContent = '人员安排';
+	    	}else if(value == 'ROLE'){
+	    		logContent = '人员角色修改';
+	    	}else if(value == 'WEBOPI'){
+	    		logContent = '访问webopi';
+	    	}
+	    	return logContent;
 	    }
 	},
 	methods:{
