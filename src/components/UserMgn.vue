@@ -131,6 +131,7 @@ export default {
 	methods:{
 		getUserList(){
 			let params = {
+				username: this.formInline.username,
 				page: this.currentPage,
 				size: this.limit,
 				sidx: 'id',

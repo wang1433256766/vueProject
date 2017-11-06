@@ -72,12 +72,16 @@ export default {
         return fetch_post('/auth/register', params)
     },
 
-    /**
-     * 发送注册验证码
-     */
-    RegistVerifiCode(tellphone) {
-        return fetch_post('/users/api/registVerifiCode', {tellphone: tellphone})
+    GetUserInfo(params){
+        return fetch_get('/userinfo/detail', params)
     },
+
+    // /**
+    //  * 发送注册验证码
+    //  */
+    // RegistVerifiCode(tellphone) {
+    //     return fetch_post('/users/api/registVerifiCode', {tellphone: tellphone})
+    // },
 
     /**
      * 登出

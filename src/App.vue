@@ -24,4 +24,7 @@ body,html,#app{
   height: 100%;
   background: #edf0f5;
 }
+.el-input-group__prepend{
+  width:10%;
+}
 </style>
