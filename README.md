@@ -1,10 +1,10 @@
 # my-vue
 
 > A Vue.js project
-> 临时浏览地址： http://miaoto.com.cn:8088
+> 临时浏览地址： http://miaoto.com.cn/dist/
 
 ``` bash
-暂时部署到了阿里云服务器上，什么时候node停掉了，上面的地址就无法浏览了
+暂时部署到了阿里云服务器上，什么时候apache停掉了，上面的地址就无法浏览了
 ```
 
 ## Build Setup
