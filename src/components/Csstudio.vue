@@ -1,16 +1,37 @@
 <template>
 	<div class="wrap">
 		<!-- <v-html-panel :url.asyc="url1"></v-html-panel> -->
-		<iframe ref="iframe" class="iframe" src="http://miaoto.com.cn:8082/w" @load="loaded"></iframe>
+		<iframe ref="iframe" class="iframe" :src='webopi_url' @load="loaded"></iframe>
 	</div>
 </template>
 
 <script>
+import api from '@/fetch/api'
+
 export default {
   name: 'csstudio',
+  data(){
+  	return {
+  		webopi_url:''
+  	}
+  },
+  created(){
+  	this.getUrl()
+  },
   methods: {
   	loaded() {
 	    
+	},
+	getUrl(){
+		api.GetWebOpiUrl()
+			.then(res => {
+				if(res.status == 1){
+					this.webopi_url = res.msg;
+				}
+			})
+			.catch(error => {
+				console.log(error);
+			})
 	}
   }
   

@@ -158,6 +158,10 @@ export default {
      */
     SetArrangeAll(params){
         return fetch_post('/arrange/list_set', params)
+    },
+
+    GetWebOpiUrl(){
+        return fetch_post('/webopi_url')
     }
      
 }
