@@ -83,9 +83,9 @@
 		</el-dialog>
 		<!-- 设置角色 -->
 		<el-dialog title="设置角色" :visible.sync="dialogRoleVisible">
-			<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+			<el-checkbox v-show="false" :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
 		    <div style="margin: 15px 0;"></div>
-			<el-checkbox-group v-model="checkedRoles" @change="handleCheckedRolesChange">
+			<el-checkbox-group v-model="checkedRoles" @change="handleCheckedRolesChange" :min="0" :max="1">
 			    <el-checkbox v-for="role in roles" :label="role" :key="role.rId">{{role.rMark}}</el-checkbox>
 			</el-checkbox-group>
 			<div slot="footer" class="dialog-footer">

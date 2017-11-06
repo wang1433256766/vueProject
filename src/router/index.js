@@ -7,6 +7,7 @@ import UserTo from '@/components/UserTo'
 import UserMgn from '@/components/UserMgn'
 import OptLog from '@/components/OptLog'
 import Csstudio from '@/components/Csstudio'
+import MyAccount from '@/components/MyAccount'
 
 Vue.use(Router)
 
@@ -59,6 +60,13 @@ export const routerMap = [
         icon: 'csstudio',
         noDropdown: true,
         children: [{path: 'index',component: Csstudio,name: '操作日志'}]
+    }, {
+        path: '/myaccount',
+        component: Layout,
+        redirect: '/myaccount/index',
+        icon: 'myaccount',
+        noDropdown: true,
+        children: [{path: 'index',component: MyAccount,name: '个人中心'}]
     }
 ]
 

@@ -48,7 +48,7 @@ export default {
   methods: {
   	myaccount(){
   		if(localStorage.getItem('user_token')){
-  			console.log('个人中心');
+  			this.$router.replace('/myaccount');
   		}else{
   			this.$router.replace('/login');
   		}
