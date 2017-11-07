@@ -96,30 +96,30 @@ export default {
 	filters:{
 		hourFomart : function (value) {
 			var timeRange = null;
-			if(value == 1){ timeRange = '00:00 - 01:00' }
-			else if(value == 2){ timeRange = '01:00 - 02:00' }
-			else if(value == 3){ timeRange = '02:00 - 03:00' }
-			else if(value == 4){ timeRange = '03:00 - 04:00' }
-			else if(value == 5){ timeRange = '04:00 - 05:00' }
-			else if(value == 6){ timeRange = '05:00 - 06:00' }
-			else if(value == 7){ timeRange = '06:00 - 07:00' }
-			else if(value == 8){ timeRange = '07:00 - 08:00' }
-			else if(value == 9){ timeRange = '08:00 - 09:00' }
-			else if(value == 10){ timeRange = '09:00 - 10:00' }
-			else if(value == 11){ timeRange = '10:00 - 11:00' }
-			else if(value == 12){ timeRange = '11:00 - 12:00' }
-			else if(value == 13){ timeRange = '12:00 - 13:00' }
-			else if(value == 14){ timeRange = '13:00 - 14:00' }
-			else if(value == 15){ timeRange = '14:00 - 15:00' }
-			else if(value == 16){ timeRange = '15:00 - 16:00' }
-			else if(value == 17){ timeRange = '16:00 - 17:00' }
-			else if(value == 18){ timeRange = '17:00 - 18:00' }
-			else if(value == 19){ timeRange = '18:00 - 19:00' }
-			else if(value == 20){ timeRange = '19:00 - 20:00' }
-			else if(value == 21){ timeRange = '20:00 - 21:00' }
-			else if(value == 22){ timeRange = '21:00 - 22:00' }
-			else if(value == 23){ timeRange = '22:00 - 23:00' }
-			else if(value == 24){ timeRange = '23:00 - 24:00' }
+			if(value == 1){ timeRange = '01:00 - 02:00' }
+			else if(value == 2){ timeRange = '02:00 - 03:00' }
+			else if(value == 3){ timeRange = '03:00 - 04:00' }
+			else if(value == 4){ timeRange = '04:00 - 05:00' }
+			else if(value == 5){ timeRange = '05:00 - 06:00' }
+			else if(value == 6){ timeRange = '06:00 - 07:00' }
+			else if(value == 7){ timeRange = '07:00 - 08:00' }
+			else if(value == 8){ timeRange = '08:00 - 09:00' }
+			else if(value == 9){ timeRange = '09:00 - 10:00' }
+			else if(value == 10){ timeRange = '10:00 - 11:00' }
+			else if(value == 11){ timeRange = '11:00 - 12:00' }
+			else if(value == 12){ timeRange = '12:00 - 13:00' }
+			else if(value == 13){ timeRange = '13:00 - 14:00' }
+			else if(value == 14){ timeRange = '14:00 - 15:00' }
+			else if(value == 15){ timeRange = '15:00 - 16:00' }
+			else if(value == 16){ timeRange = '16:00 - 17:00' }
+			else if(value == 17){ timeRange = '17:00 - 18:00' }
+			else if(value == 18){ timeRange = '18:00 - 19:00' }
+			else if(value == 19){ timeRange = '19:00 - 20:00' }
+			else if(value == 20){ timeRange = '20:00 - 21:00' }
+			else if(value == 21){ timeRange = '21:00 - 22:00' }
+			else if(value == 22){ timeRange = '22:00 - 23:00' }
+			else if(value == 23){ timeRange = '23:00 - 24:00' }
+			else if(value == 24){ timeRange = '00:00 - 01:00' }
 			else{ timeRange = '' }
 			return timeRange;
 	    }
