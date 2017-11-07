@@ -26,7 +26,11 @@ export default {
 		api.GetWebOpiUrl()
 			.then(res => {
 				if(res.status == 1){
-					this.webopi_url = res.msg;
+					if(localStorage.getItem('user_token')){
+						this.webopi_url = res.msg.substring(0,res.msg.length-1)+'?token='+localStorage.getItem('user_token');
+					}else{
+						this.webopi_url = res.msg;
+					}
 				}
 			})
 			.catch(error => {
