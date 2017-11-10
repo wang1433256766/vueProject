@@ -71,6 +71,11 @@ export default {
     } 
   },
   methods: {
+    setCookie: function (cname, cvalue) {
+        console.info(cname + "=" + cvalue + "; ");
+        document.cookie = cname + "=" + cvalue + "; ";
+        console.info(document.cookie);
+    },
     //登录
     login(){
       if(this.inputObj.email && this.inputObj.password){
@@ -82,6 +87,7 @@ export default {
             .then(res => {
               if(res.status == 1) {
                 this.$store.commit('setToken',res.data);
+                this.setCookie('hxfilter',res.data);
                 this.$router.replace('/fileMgn');
               }else{
                 this.$message({

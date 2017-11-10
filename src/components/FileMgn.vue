@@ -98,18 +98,7 @@ export default {
 	        this.getUserFileList()
 	    },
 	    handleDownLoad(rowData){
-	    	let params = {
-	    		floder : rowData.floder
-	    	};
-	    	api.DownloadFloder(params)
-	    		.then(res => {
-	    			if(res.status == 1){
-	    				window.location.href = res.data;
-	    			}
-	    		})
-	    		.catch(error => {
-	    			console.log(error);
-	    		})
+	    	window.location.href = 'http://miaoto.com.cn:8084/userinfo/download?floder='+rowData.floder;
 	    }
 	}
 }	

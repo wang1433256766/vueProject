@@ -109,9 +109,9 @@ export default {
      * [DownloadFloder 用户文件下载]
      * @param {[type]} params [description]
      */
-    DownloadFloder(params){
-        return fetch_get('/userinfo/download', params)
-    },
+    // DownloadFloder(params){
+    //     return fetch_get('/userinfo/download', params)
+    // },
 
     /**
      * [GetUserList 获取用户列表]

@@ -46,6 +46,11 @@ export default {
   	}
   },
   methods: {
+  	delCookie(name){//为了删除指定名称的cookie，可以将其过期时间设定为一个过去的时间 
+        var date = new Date(); 
+        date.setTime(date.getTime() - 10000); 
+        document.cookie = name + "=a; expires=" + date.toGMTString(); 
+    },
   	myaccount(){
   		if(localStorage.getItem('user_token')){
   			this.$router.replace('/myaccount');
@@ -58,6 +63,7 @@ export default {
   	  		api.Logout()
   	  			.then(res => {
   	  				localStorage.removeItem("user_token");
+  	  				this.delCookie('hxfilter');
   	  				this.$router.replace('/login');
   	  			})
   	  			.catch(error => {
