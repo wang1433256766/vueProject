@@ -14,31 +14,31 @@
     		</el-table-column>
 
             <el-table-column label="用户名" width="90">
-				<template scope="scope">
+				<template slot-scope="scope">
 					<span>{{scope.row.username}}</span>
 				</template>
             </el-table-column>
 
             <el-table-column label="邮箱">
-            	<template scope="scope">
+            	<template slot-scope="scope">
 					<span>{{scope.row.email}}</span>
 				</template>
             </el-table-column>
 
             <el-table-column label="用户角色">
-            	<template scope="scope">
+            	<template slot-scope="scope">
 					<span>{{scope.row.roleArr}}</span>
 				</template>
             </el-table-column>
 
             <el-table-column label="用户状态" width="95">
-            	<template scope="scope">
+            	<template slot-scope="scope">
 					<el-tag :type="scope.row.status==0?'success':'danger'">{{scope.row.status==0?'已授权':'未授权'}}</el-tag>
 				</template>
             </el-table-column>
 
             <el-table-column label="授权管理员" width="240">
-            	<template scope="scope">
+            	<template slot-scope="scope">
 	              	<el-button :type="scope.row.status==0?'danger':'success'" size="small" @click="handleRole(scope.row)">{{scope.row.status==0?'禁用':'授权'}}</el-button>
 	              	<el-button type="primary" size="small" @click="viewDetail(scope.row)">详情</el-button>
 	              	<el-button type="primary" size="small" @click="setRole(scope.row)">设置角色</el-button>

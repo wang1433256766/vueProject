@@ -24,7 +24,7 @@
             label="创建时间">
           </el-table-column>
           <el-table-column label="下载">
-            <template scope="scope">
+            <template slot-scope="scope">
               <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">下载</el-button>
             </template>
           </el-table-column>

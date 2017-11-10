@@ -18,31 +18,31 @@
         <el-table :data="logData" border style="width: 100%">
 
             <el-table-column label="操作人员">
-				<template scope="scope">
+				<template slot-scope="scope">
 					<span>{{scope.row.logFrom}}</span>
 				</template>
             </el-table-column>
 
             <el-table-column label="操作主机">
-            	<template scope="scope">
+            	<template slot-scope="scope">
 					<span>{{scope.row.ip}}</span>
 				</template>
             </el-table-column>
 
             <el-table-column label="操作时间">
-            	<template scope="scope">
+            	<template slot-scope="scope">
 					<span>{{scope.row.createtime | time}}</span>
 				</template>
             </el-table-column>
 
             <el-table-column label="操作内容">
-            	<template scope="scope">
+            	<template slot-scope="scope">
 					<span>{{scope.row.logName | switchHan}}</span>
 				</template>
             </el-table-column>
 
             <el-table-column label="操作详情">
-            	<template scope="scope">
+            	<template slot-scope="scope">
 					<span>{{scope.row.logMsg}}</span>
 				</template>
             </el-table-column>

@@ -18,13 +18,13 @@
         <el-table :data="arrangeList" border style="width: 100%">
 
             <el-table-column align="center" label="时间段">
-				<template scope="scope">
+				<template slot-scope="scope">
 					<span>{{scope.row.hour | hourFomart}}</span>
 				</template>
             </el-table-column>
 
             <el-table-column align="center" label="操作人ID">
-            	<template scope="scope">
+            	<template slot-scope="scope">
             		<el-select v-show="scope.row.edit" v-model="scope.row.uid" clearable  filterable placeholder="请选择">
 					    <el-option
 					      v-for="item in options"
@@ -38,13 +38,13 @@
             </el-table-column>
 
             <el-table-column align="center" label="操作人">
-            	<template scope="scope">
+            	<template slot-scope="scope">
 					<span>{{scope.row.uname}}</span>
 				</template>
             </el-table-column>
 
             <el-table-column align="center" label="编辑">
-		        <template scope="scope">
+		        <template slot-scope="scope">
 		          	<el-button :type="scope.row.edit?'success':'primary'" @click='scope.row.edit=!scope.row.edit' size="small">{{scope.row.edit?'完成':'编辑'}}</el-button>
 		          	<el-button type="success" size="small" @click="save(scope.row)">保存
           			</el-button>
