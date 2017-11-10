@@ -59,7 +59,7 @@ export const routerMap = [
         redirect: '/csstudio/index',
         icon: 'csstudio',
         noDropdown: true,
-        children: [{path: 'index',component: Csstudio,name: '操作日志'}]
+        children: [{path: 'index',component: Csstudio,name: 'webopi'}]
     }, {
         path: '/myaccount',
         component: Layout,
