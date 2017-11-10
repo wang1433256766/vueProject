@@ -94,8 +94,16 @@ export default {
       }
     }
   },
+  mounted(){
+    let _self = this;
+    document.onkeyup = function(events){
+      if(events.keyCode == 13){
+        _self.register();
+      }
+    } 
+  },
   methods: {
-    //登录
+    //注册
     register(){
       if(this.inputObj.email && this.inputObj.password){
         let params = {
@@ -108,11 +116,27 @@ export default {
             .then(res => {
               console.log(res);
               if(res.status == 0) {
+                this.$message({
+                    showClose: true,
+                    message: '注册成功',
+                    type: 'success'
+                });
                 this.$router.replace('/login');
+              }else{
+                this.$message({
+                    showClose: true,
+                    message: '注册失败',
+                    type: 'error'
+                });
               }
             })
             .catch(error => {
               console.log(error)
+              this.$message({
+                  showClose: true,
+                  message: '注册失败',
+                  type: 'error'
+              });
             })
       }
     },

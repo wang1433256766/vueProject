@@ -25,9 +25,15 @@
 				</template>
             </el-table-column>
 
-            <el-table-column label="用户角色">
+            <el-table-column label="用户角色" width="160">
             	<template slot-scope="scope">
 					<span>{{scope.row.roleArr}}</span>
+				</template>
+            </el-table-column>
+
+            <el-table-column label="文件路径" width="95">
+            	<template slot-scope="scope">
+					<span>{{scope.row.path}}</span>
 				</template>
             </el-table-column>
 
@@ -75,10 +81,13 @@
 				        <el-option label="未授权" value="2"></el-option>
 			      	</el-select>
 			    </el-form-item>
+			    <el-form-item label="用户文件路径" :label-width="formLabelWidth">
+			    	<el-input v-model="form.path" class="dialog_input"></el-input>
+			    </el-form-item>
 		  	</el-form>
 		  	<div slot="footer" class="dialog-footer">
 		    	<el-button @click="dialogFormVisible = false">取 消</el-button>
-		    	<!-- <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button> -->
+		    	<el-button type="primary" @click="setPath">确 定</el-button>
 		  	</div>
 		</el-dialog>
 		<!-- 设置角色 -->
@@ -116,6 +125,7 @@ export default {
 	  			uname: '',
 	  			email: '',
 	  			role: '',
+	  			path: '',
 	  			status: ''
 	  		},
 	  		isIndeterminate: false,
@@ -189,6 +199,7 @@ export default {
 	    handleRoleSelect(){
 	    	if(this.multipleSelection.length == 0){
 	    		this.$message({
+	    			showClose: true,
 		          	message: '请选择要授权的用户',
 		          	type: 'warning'
 		        });
@@ -227,6 +238,7 @@ export default {
 	    	this.form.uname = value.username;
 	    	this.form.email = value.email;
 	    	this.form.role = value.roleArr;
+	    	this.form.path = value.path;
 	    	this.form.status = value.status.toString();
 	    },
 	    //设置角色
@@ -300,6 +312,10 @@ export default {
 	    		.catch(error => {
 	    			console.log(error);
 	    		})
+	    },
+	    //设置用户文件路径
+	    setPath(){
+
 	    }
 	}
 }	

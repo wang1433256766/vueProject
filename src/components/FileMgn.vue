@@ -1,43 +1,43 @@
 <template>
 	<div class="wrap">
-		<el-form :inline="true" :model="formInline" class="demo-form-inline">
+		<!-- <el-form :inline="true" :model="formInline" class="demo-form-inline">
           <el-form-item label="">
             <el-input v-model="formInline.name" placeholder="请输入文件名"></el-input>
           </el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
-        </el-form>
+        </el-form> -->
 	    <!--表格-->
-        <el-table
-          :data="tableData"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="name"
-            label="文件名">
-          </el-table-column>
-          <el-table-column
-            prop="size"
-            label="文件大小">
-          </el-table-column>
-          <el-table-column
-            prop="createTime"
-            label="创建时间">
-          </el-table-column>
-          <el-table-column label="下载">
-            <template slot-scope="scope">
-              <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">下载</el-button>
-            </template>
-          </el-table-column>
+        <el-table :data="tableData" border style="width: 100%">
+			<!-- <el-table-column prop="name" label="文件名"></el-table-column> -->
+            <el-table-column align="center" label="文件夹名">
+				<template slot-scope="scope">
+					<span>{{scope.row.name}}</span>
+				</template>
+            </el-table-column>
+
+            <el-table-column align="center" label="创建时间">
+            	<template slot-scope="scope">
+					<span>{{scope.row.createTime}}</span>
+				</template>
+            </el-table-column>
+
+            <el-table-column align="center" label="下载">
+            	<template slot-scope="scope">
+              		<el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">下载</el-button>
+            	</template>
+          	</el-table-column>
+
         </el-table>
+
         <div class="block">
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-size="100"
-            layout="prev, pager, next, jumper"
-            :total="1000">
-          </el-pagination>
+          	<el-pagination
+	            @size-change="handleSizeChange"
+	            @current-change="handleCurrentChange"
+	            :current-page="currentPage"
+	            :page-size="100"
+	            layout="prev, pager, next, jumper"
+	            :total="1000">
+          	</el-pagination>
         </div>
 	</div>
 </template>
@@ -49,21 +49,18 @@ export default {
 	  	return {
 	  		formInline: {name:''},
 	  		currentPage: 4,
-	  		tableData: [{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'},
-	  					{name:'文件名',size:'文件大小',createTime:'创建时间'}]
+	  		tableData: [{name:'文件名',createTime:'创建时间'},
+	  					{name:'文件名',createTime:'创建时间'},
+	  					{name:'文件名',createTime:'创建时间'},
+	  					{name:'文件名',createTime:'创建时间'},
+	  					{name:'文件名',createTime:'创建时间'},
+	  					{name:'文件名',createTime:'创建时间'},
+	  					{name:'文件名',createTime:'创建时间'},
+	  					{name:'文件名',createTime:'创建时间'},
+	  					{name:'文件名',createTime:'创建时间'}]
 	  	}
 	},
 	methods:{
-		onSubmit(){
-
-		},
 		handleSizeChange(val) {
 	        console.log(`每页 ${val} 条`);
 	    },

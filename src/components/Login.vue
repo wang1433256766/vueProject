@@ -62,6 +62,14 @@ export default {
       }
     }
   },
+  mounted(){
+    let _self = this;
+    document.onkeyup = function(events){
+      if(events.keyCode == 13){
+        _self.login();
+      }
+    } 
+  },
   methods: {
     //登录
     login(){
@@ -75,10 +83,21 @@ export default {
               if(res.status == 1) {
                 this.$store.commit('setToken',res.data);
                 this.$router.replace('/fileMgn');
+              }else{
+                this.$message({
+                    showClose: true,
+                    message: '登录失败',
+                    type: 'error'
+                });
               }
             })
             .catch(error => {
               console.log(error)
+              this.$message({
+                    showClose: true,
+                    message: '登录失败',
+                    type: 'error'
+                });
             })
       }
     }
