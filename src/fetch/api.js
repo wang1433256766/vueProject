@@ -98,6 +98,22 @@ export default {
     },
 
     /**
+     * [GetUserFileList 获取用户文件列表]
+     * @param {[type]} params [一些分页参数]
+     */
+    GetUserFileList(params){
+        return fetch_get('/userinfo/file', params)
+    },
+
+    /**
+     * [DownloadFloder 用户文件下载]
+     * @param {[type]} params [description]
+     */
+    DownloadFloder(params){
+        return fetch_get('/userinfo/download', params)
+    },
+
+    /**
      * [GetUserList 获取用户列表]
      * @param {[type]} params [description]
      */

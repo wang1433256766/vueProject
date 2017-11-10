@@ -11,62 +11,105 @@
 			<!-- <el-table-column prop="name" label="文件名"></el-table-column> -->
             <el-table-column align="center" label="文件夹名">
 				<template slot-scope="scope">
-					<span>{{scope.row.name}}</span>
+					<span>{{scope.row.floder}}</span>
 				</template>
             </el-table-column>
 
             <el-table-column align="center" label="创建时间">
             	<template slot-scope="scope">
-					<span>{{scope.row.createTime}}</span>
+					<span>{{scope.row.date | time}}</span>
 				</template>
             </el-table-column>
 
             <el-table-column align="center" label="下载">
             	<template slot-scope="scope">
-              		<el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">下载</el-button>
+              		<el-button type="primary" size="small" @click="handleDownLoad(scope.row)">下载</el-button>
             	</template>
           	</el-table-column>
 
         </el-table>
 
         <div class="block">
-          	<el-pagination
+        	<el-pagination
 	            @size-change="handleSizeChange"
 	            @current-change="handleCurrentChange"
 	            :current-page="currentPage"
-	            :page-size="100"
-	            layout="prev, pager, next, jumper"
-	            :total="1000">
-          	</el-pagination>
+	            :page-sizes="[5,10,20,30]" 
+	            :page-size="limit"
+	            layout="total, sizes, prev, pager, next, jumper"
+	            :total="total">
+	        </el-pagination>
         </div>
 	</div>
 </template>
 
 <script>
+import api from '@/fetch/api'
+
 export default {
   	name: 'fileMgn',
 	data(){
 	  	return {
-	  		formInline: {name:''},
-	  		currentPage: 4,
-	  		tableData: [{name:'文件名',createTime:'创建时间'},
-	  					{name:'文件名',createTime:'创建时间'},
-	  					{name:'文件名',createTime:'创建时间'},
-	  					{name:'文件名',createTime:'创建时间'},
-	  					{name:'文件名',createTime:'创建时间'},
-	  					{name:'文件名',createTime:'创建时间'},
-	  					{name:'文件名',createTime:'创建时间'},
-	  					{name:'文件名',createTime:'创建时间'},
-	  					{name:'文件名',createTime:'创建时间'}]
+	  		//formInline: {name:''},
+	  		currentPage: 1,
+	  		limit: 10,
+	  		total: null,
+	  		tableData: null,
 	  	}
 	},
+	created(){
+		this.getUserFileList()
+	},
+	filters:{
+		time : function (value) {
+			var now = new Date(value);
+			var year=now.getFullYear(); 
+		    var month=now.getMonth()+1; 
+		    var date=now.getDate(); 
+		    var hour=now.getHours(); 
+		    var minute=now.getMinutes(); 
+		    var second=now.getSeconds(); 
+		    return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+	    }
+	},
 	methods:{
+		getUserFileList(){
+			let params = {
+				page: this.currentPage,
+				size: this.limit
+			};
+			api.GetUserFileList(params)
+				.then(res => {
+					if(res.status == 1){
+						this.tableData = res.data.fileList;
+						this.total = res.data.total;
+					}
+				})
+				.catch(error => {
+					console.log(error);
+				})
+		},
 		handleSizeChange(val) {
-	        console.log(`每页 ${val} 条`);
+	        this.limit = val;
+	        this.getUserFileList()
 	    },
 	    handleCurrentChange(val) {
 	        this.currentPage = val;
-	        console.log(`当前页: ${val}`);
+	        this.getUserFileList()
+	    },
+	    handleDownLoad(rowData){
+	    	let params = {
+	    		floder : rowData.floder
+	    	};
+	    	api.DownloadFloder(params)
+	    		.then(res => {
+	    			if(res.status == 1){
+	    				window.location.href = res.data;
+	    			}
+	    		})
+	    		.catch(error => {
+	    			console.log(error);
+	    		})
 	    }
 	}
 }	

@@ -31,7 +31,7 @@
 				</template>
             </el-table-column>
 
-            <el-table-column label="文件路径" width="95">
+            <el-table-column label="文件路径" width="230">
             	<template slot-scope="scope">
 					<span>{{scope.row.path}}</span>
 				</template>
@@ -235,6 +235,7 @@ export default {
 	    },
 	    viewDetail(value){
 	    	this.dialogFormVisible = true;
+	    	this.form.uid = value.id;
 	    	this.form.uname = value.username;
 	    	this.form.email = value.email;
 	    	this.form.role = value.roleArr;
@@ -315,7 +316,31 @@ export default {
 	    },
 	    //设置用户文件路径
 	    setPath(){
-
+	    	let params = {
+	    		id: this.form.uid,
+	    		path: this.form.path
+	    	};
+	    	api.UpdateUserStatus(params)
+	    		.then(res => {
+	    			console.log(res);
+	    			if(res.status == 1){
+	    				this.dialogFormVisible = false;
+	    				this.$notify({
+				          	title: '',
+				          	message: '文件路径设置成功',
+				          	type: 'success'
+				        });
+	    				this.getUserList()
+	    			}else{
+	    				this.$notify.error({
+					        title: '失败',
+					        message: '文件路径设置失败'
+				        });
+	    			}
+	    		})
+	    		.catch(error => {
+	    			console.log(error)
+	    		})
 	    }
 	}
 }	
