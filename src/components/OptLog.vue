@@ -136,6 +136,8 @@ export default {
 	    		logContent = '人员角色修改';
 	    	}else if(value == 'WEBOPI'){
 	    		logContent = '访问webopi';
+	    	}else if(value == 'USERINFO'){
+	    		logContent = '用户信息修改';
 	    	}
 	    	return logContent;
 	    }
