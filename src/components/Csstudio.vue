@@ -20,11 +20,49 @@ export default {
   data(){
   	return {
   		webopi_url:'',
-  		centerDialogVisible: false
+  		webopi_url_w:'',
+  		centerDialogVisible: false,
+  		screenWidth: document.body.clientWidth,
+  		screenHeight: document.body.clientHeight
   	}
   },
   created(){
   	this.getUrl()
+  },
+  mounted(){
+  	const that = this
+    window.onresize = () => {
+        return (() => {
+            window.screenWidth = document.body.clientWidth;
+            window.screenHeight = document.body.clientHeight;
+            that.screenWidth = window.screenWidth;
+            that.screenHeight = window.screenHeight;
+        })()
+    }
+  },
+  watch: {
+  	screenWidth(val){
+  		if (!this.timer) {
+            this.screenWidth = val
+            this.timer = true
+            let that = this
+            setTimeout(function () {
+                that.getUrl()
+                that.timer = false
+            }, 400)
+        }
+  	},
+  	screenHeight(val){
+  		if (!this.timer) {
+            this.screenHeight = val
+            this.timer = true
+            let that = this
+            setTimeout(function () {
+                that.getUrl()
+                that.timer = false
+            }, 400)
+        }
+  	}
   },
   methods: {
   	loaded() {
@@ -35,7 +73,12 @@ export default {
 			.then(res => {
 				if(res.status == 1){
 					if(localStorage.getItem('user_token')){
-						this.webopi_url = res.msg.substring(0,res.msg.length-1)+'?token='+localStorage.getItem('user_token');
+						if(this.screenWidth>1700 && this.screenHeight>900){
+							this.webopi_url = res.msg.substring(0,res.msg.length-1)+'/w?token='+localStorage.getItem('user_token');
+						}else{
+							this.webopi_url = res.msg.substring(0,res.msg.length-1)+'/m?token='+localStorage.getItem('user_token');
+						}
+						this.webopi_url_w = res.msg.substring(0,res.msg.length-1)+'/w?token='+localStorage.getItem('user_token');
 					}else{
 						this.webopi_url = res.msg;
 					}
@@ -47,7 +90,7 @@ export default {
 	},
 	goUrl(){
 		this.centerDialogVisible = false;
-		window.open(this.webopi_url);
+		window.open(this.webopi_url_w);
 	}
   }
   

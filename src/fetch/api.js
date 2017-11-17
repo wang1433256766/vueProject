@@ -5,7 +5,7 @@ import qs from 'qs'
 axios.defaults.timeout = 5000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 axios.defaults.baseURL = 'http://miaoto.com.cn:8084/';
-//axios.defaults.baseURL = 'http://192.168.1.105:8084/';
+//axios.defaults.baseURL = 'http://127.0.0.1:8084/';
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('user_token')?localStorage.getItem('user_token') : 'AUTH_TOKEN';
 
 //POST传参序列化
