@@ -143,7 +143,7 @@ export default {
 		width: 100%;
 		min-width: 1100px;
 		position: absolute;
-		top: 80px;
+		top: 100px;
 		bottom: 50px;
 		padding-left: 220px;
 		box-sizing: border-box;

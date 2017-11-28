@@ -13,19 +13,19 @@
 			<el-table-column  type="selection" width="50">
     		</el-table-column>
 
-            <el-table-column label="用户名" width="90">
+            <el-table-column label="用户名" width="100">
 				<template slot-scope="scope">
 					<span>{{scope.row.username}}</span>
 				</template>
             </el-table-column>
 
-            <el-table-column label="邮箱">
+            <el-table-column label="邮箱" width="230">
             	<template slot-scope="scope">
 					<span>{{scope.row.email}}</span>
 				</template>
             </el-table-column>
 
-            <el-table-column label="用户角色" width="160">
+            <el-table-column label="用户角色" width="100">
             	<template slot-scope="scope">
 					<span>{{scope.row.roleArr}}</span>
 				</template>
@@ -349,7 +349,7 @@ export default {
 <style scoped>
 	.wrap{
 		background: #ffffff;
-		margin-top: 20px;
+		/*margin-top: 20px;*/
 		margin-left: 20px;
 		height: 100%;
 		overflow-y: scroll;

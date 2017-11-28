@@ -22,7 +22,7 @@ export default {
 body,html,#app{
   width: 100%;
   height: 100%;
-  background: #edf0f5;
+  background: #f4f8fb;
 }
 .el-input-group__prepend{
   width:10%;

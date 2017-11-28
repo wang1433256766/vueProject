@@ -1,17 +1,18 @@
 <template>
 	<div class="wrap">
-		<!-- <el-form :inline="true" :model="formInline" class="demo-form-inline">
-          <el-form-item label="">
-            <el-input v-model="formInline.name" placeholder="请输入文件名"></el-input>
-          </el-form-item>
-          <el-button type="primary" @click="onSubmit">查询</el-button>
-        </el-form> -->
+		<el-breadcrumb separator="/">
+		  	<el-breadcrumb-item v-for="path in paths">
+		  		<a @click="backFolder(path)">{{path}}</a>
+		  	</el-breadcrumb-item>
+		  <!-- <el-breadcrumb-item>路径1</el-breadcrumb-item> -->
+		</el-breadcrumb>
 	    <!--表格-->
         <el-table :data="tableData" border style="width: 100%">
 			<!-- <el-table-column prop="name" label="文件名"></el-table-column> -->
-            <el-table-column align="center" label="文件夹名">
+            <el-table-column align="center" label="文件夹/文件">
 				<template slot-scope="scope">
-					<span>{{scope.row.floder}}</span>
+					<span v-if="scope.row.folder"><a href="#" @click="inFolder(scope.row.floder)">{{scope.row.floder}}</a></span>
+					<span v-else>{{scope.row.floder}}</span>
 				</template>
             </el-table-column>
 
@@ -50,6 +51,7 @@ export default {
   	name: 'fileMgn',
 	data(){
 	  	return {
+	  		paths: ['文件根目录'],
 	  		//formInline: {name:''},
 	  		currentPage: 1,
 	  		limit: 10,
@@ -58,7 +60,7 @@ export default {
 	  	}
 	},
 	created(){
-		this.getUserFileList()
+		this.getUserFileList('/')
 	},
 	filters:{
 		time : function (value) {
@@ -73,10 +75,11 @@ export default {
 	    }
 	},
 	methods:{
-		getUserFileList(){
+		getUserFileList(dir){
 			let params = {
 				page: this.currentPage,
-				size: this.limit
+				size: this.limit,
+				dir: dir
 			};
 			api.GetUserFileList(params)
 				.then(res => {
@@ -91,14 +94,60 @@ export default {
 		},
 		handleSizeChange(val) {
 	        this.limit = val;
-	        this.getUserFileList()
+	        var dir = '';
+	    	for(var i=1;i<this.paths.length;i++){
+	    		dir += '/'+this.paths[i];
+	    	}
+	    	if(dir==''){
+	    		dir = '/';
+	    	}
+	        this.getUserFileList(dir)
 	    },
 	    handleCurrentChange(val) {
 	        this.currentPage = val;
-	        this.getUserFileList()
+	        var dir = '';
+	    	for(var i=1;i<this.paths.length;i++){
+	    		dir += '/'+this.paths[i];
+	    	}
+	    	if(dir==''){
+	    		dir = '/';
+	    	}
+	        this.getUserFileList(dir)
 	    },
 	    handleDownLoad(rowData){
-	    	window.location.href = 'http://miaoto.com.cn:8084/userinfo/download?floder='+rowData.floder;
+	    	var dir = '';
+	    	for(var i=1;i<this.paths.length;i++){
+	    		dir += '/'+this.paths[i];
+	    	}
+	    	if(dir==''){
+	    		dir = '/'+rowData.floder;
+	    	}else{
+	    		dir +=   '/'+rowData.floder;
+	    	}
+	    	window.location.href = 'http://miaoto.com.cn:8084/userinfo/download?floder='+dir;
+	    },
+	    inFolder(folderName){
+	    	this.paths.push(folderName);
+	    	var dir = '';
+	    	for(var i=1;i<this.paths.length;i++){
+	    		dir += '/'+this.paths[i];
+	    	}
+	    	this.getUserFileList(dir);
+	    },
+	    backFolder(folderName){
+	    	for(var i=0;i<this.paths.length;i++){
+	    		if(this.paths[i] == folderName){
+	    			this.paths.splice(i+1);
+	    		}
+	    	}
+	    	var dir = '';
+	    	for(var i=1;i<this.paths.length;i++){
+	    		dir += '/'+this.paths[i];
+	    	}
+	    	if(dir==''){
+	    		dir = '/';
+	    	}
+	    	this.getUserFileList(dir);
 	    }
 	}
 }	
@@ -107,12 +156,16 @@ export default {
 <style scoped>
 	.wrap{
 		background: #ffffff;
-		margin-top: 20px;
+		/*margin-top: 20px;*/
 		margin-left: 20px;
 		height: 100%;
 		overflow-y: scroll;
 		box-sizing: border-box;
 		padding: 30px;
+		padding-top: 0px;
+	}
+	.el-breadcrumb {
+	    line-height: 4em;
 	}
 	.demo-form-inline{
 		text-align: center;

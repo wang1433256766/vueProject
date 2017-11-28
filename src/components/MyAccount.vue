@@ -145,7 +145,7 @@ let Base64 = require('js-base64').Base64;
 <style scoped>
 	.wrap{
 		background: #ffffff;
-		margin-top: 20px;
+		/*margin-top: 20px;*/
 		margin-left: 20px;
 		height: 100%;
 		overflow-y: scroll;

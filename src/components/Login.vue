@@ -72,9 +72,9 @@ export default {
   },
   methods: {
     setCookie: function (cname, cvalue) {
-        console.info(cname + "=" + cvalue + "; ");
+        //console.info(cname + "=" + cvalue + "; ");
         document.cookie = cname + "=" + cvalue + "; ";
-        console.info(document.cookie);
+        //console.info(document.cookie);
     },
     //登录
     login(){
