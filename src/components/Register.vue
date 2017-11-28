@@ -105,16 +105,56 @@ export default {
   methods: {
     //注册
     register(){
-      if(this.inputObj.email && this.inputObj.password){
-        let params = {
-          email:this.inputObj.email,
-          username: this.inputObj.username,
-          pwd: this.inputObj.password,
-          repwd: this.inputObj.repwd
-        }
-        api.Register(params)
-            .then(res => {
-              console.log(res);
+      const reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/ ;
+      if(!this.inputObj.email){
+          this.$message({
+          showClose: true,
+              message: '请填写邮箱',
+              type: 'warning'
+          });
+        return false;
+      }
+      if(!reg.test(this.inputObj.email)){
+          this.$message({
+            showClose: true,
+                message: '请填写正确的邮箱',
+                type: 'warning'
+            });
+        return false;
+      }
+      if(!this.inputObj.password){
+          this.$message({
+          showClose: true,
+              message: '请填写密码',
+              type: 'warning'
+          });
+        return false;
+      }
+      if(this.inputObj.password<6){
+          this.$message({
+          showClose: true,
+              message: '密码请超过六位',
+              type: 'warning'
+          });
+        return false;
+      }
+      if(this.inputObj.password != this.inputObj.repwd){
+        this.$message({
+        showClose: true,
+            message: '两次密码不一致',
+            type: 'warning'
+        });
+        return false;
+      }
+      let params = {
+        email:this.inputObj.email,
+        username: this.inputObj.username,
+        pwd: this.inputObj.password,
+        repwd: this.inputObj.repwd
+      }
+      api.Register(params)
+          .then(res => {
+            //console.log(res);
               if(res.status == 0) {
                 this.$message({
                     showClose: true,
@@ -138,7 +178,6 @@ export default {
                   type: 'error'
               });
             })
-      }
     },
 
     //获取验证码

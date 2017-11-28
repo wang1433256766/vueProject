@@ -124,7 +124,9 @@ export default {
 	    	}else{
 	    		dir +=   '/'+rowData.floder;
 	    	}
-	    	window.location.href = 'http://miaoto.com.cn:8084/userinfo/download?floder='+dir;
+	    	//window.location.href = 'http://10.30.61.208:8084/test/download?floder='+dir+'&'+'token='+localStorage.getItem('user_token');
+	    	window.location.href = 'http://miaoto.com.cn:8084/test/download?floder='+dir+'&'+'token='+localStorage.getItem('user_token');
+	    	//window.location.href = 'http://miaoto.com.cn:8084/userinfo/download?floder='+dir;
 	    },
 	    inFolder(folderName){
 	    	this.paths.push(folderName);
