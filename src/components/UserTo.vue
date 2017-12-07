@@ -11,8 +11,43 @@
 				</el-date-picker>
             </el-form-item>
             <el-button type="primary" @click="onSubmit">查询</el-button>
-            <el-button type="success" @click="saveAll()">保存
-          			</el-button>
+            <el-button v-show="false" type="success" @click="saveAll()">批量保存</el-button>
+        </el-form>
+        <el-form :inline="true" :model="arrangeParams" class="demo-form-inline">
+        	<el-form-item label="用户">
+	            <el-select v-model="arrangeParams.uid" placeholder="请选择">
+				    <el-option
+				      v-for="item in options"
+				      :key="item.value"
+				      :label="item.label"
+				      :value="item.value">
+				    </el-option>
+				  </el-select>
+            </el-form-item>
+            <el-form-item label="时间段">
+	            <template>
+				  <el-time-select
+				    placeholder="起始时间"
+				    v-model="startTime"
+				    :picker-options="{
+				      start: '00:00',
+				      step: '01:00',
+				      end: '23:00'
+				    }">
+				  </el-time-select>
+				  <el-time-select
+				    placeholder="结束时间"
+				    v-model="endTime"
+				    :picker-options="{
+				      start: '01:00',
+				      step: '01:00',
+				      end: '24:00',
+				      minTime: startTime
+				    }">
+				  </el-time-select>
+				</template>
+            </el-form-item>
+            <el-button type="success" @click="arrangeOpt()">安排</el-button>
         </el-form>
 	    <!--表格-->
         <el-table :data="arrangeList" border style="width: 100%">
@@ -64,6 +99,9 @@ export default {
 	  	return {
 	  		options: [],
 	  		formInline: {date:new Date()},
+	  		arrangeParams: {uid:''},
+	  		startTime: '',
+        	endTime: '',
 	  		pickerOptions: {
 	          shortcuts: [{
 	            text: '今天',
@@ -169,10 +207,12 @@ export default {
 					console.log(error)
 				})
 		},
+		//按日期查询
 		onSubmit(){
-			console.log(this.formInline.date);
+			//console.log(this.formInline.date);
 			this.getList()
 		},
+		//保存
 	    save(row_data){
 	    	let params = {
 	    		date: this.formInline.date,
@@ -189,6 +229,7 @@ export default {
 	    			console.log(error);
 	    		})
 	    },
+	    //批量保存
 	    saveAll(){
 	    	const dataArr = [];
 	    	for(var i=0;i<this.arrangeList.length;i++){
@@ -202,6 +243,59 @@ export default {
 	    		data: dataArr.toString()
 	    	}
 	    	api.SetArrangeAll(params)
+	    		.then(res => {
+	    			if(res.status == 1){
+	    				this.getList()
+	    			}
+	    		})
+	    		.catch(error => {
+	    			console.log(error);
+	    		})
+
+	    },
+	    //安排
+	    arrangeOpt(){
+	    	//console.log(this.endTime.split(':')[0]-this.startTime.split(':')[0]);
+	    	if(!this.arrangeParams.uid){
+	    		this.$message({
+			        showClose: true,
+			            message: '请选择要安排的用户！',
+			            type: 'warning'
+		        });
+		        return false;
+	    	}
+	    	if(!this.startTime || ! this.endTime){
+	    		this.$message({
+			        showClose: true,
+			            message: '请选择要安排的时间段！',
+			            type: 'warning'
+		        });
+		        return false;
+	    	}
+	    	if(this.endTime <= this.startTime){
+	    		this.$message({
+			        showClose: true,
+			            message: '请确保结束时间大于起始时间！',
+			            type: 'warning'
+		        });
+		        return false;
+	    	}
+	    	var hourStr = '';
+	    	for(var i=parseInt(this.startTime.split(':')[0]); i<parseInt(this.endTime.split(':')[0]); i++){
+	    		console.log(i);
+	    		if(i == 0){
+	    			hourStr += '24,';
+	    		}else{
+	    			hourStr += i+',';
+	    		}
+	    	}
+	    	hourStr = hourStr.substring(0,hourStr.length-1);
+	    	let params = {
+	    		date: this.formInline.date,
+	    		hours: hourStr,
+	    		uid: this.arrangeParams.uid
+	    	};
+	    	api.SetArrange(params)
 	    		.then(res => {
 	    			if(res.status == 1){
 	    				this.getList()

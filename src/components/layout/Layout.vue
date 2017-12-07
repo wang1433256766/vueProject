@@ -11,6 +11,7 @@
 				<li><router-link to="/userMgn"><img src="../../assets/userMgn-2.png" alt="photo">角色管理</router-link></li>
 				<li><router-link to="/optLog"><img src="../../assets/opt-2.png" alt="photo">操作日志</router-link></li>
 				<li><router-link to="/csstudio"><img src="../../assets/csstudio-2.png" alt="photo">csstudio操作界面</router-link></li>
+				<li><a href="http://10.30.61.222/view/viewer_index.shtml?id=0" target="_blank"><img src="../../assets/csstudio-2.png" alt="photo">视频监控</a></li>
 			</ul>
 		</div>
 		<div class="app-main">

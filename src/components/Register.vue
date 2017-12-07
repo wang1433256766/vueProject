@@ -155,7 +155,7 @@ export default {
       api.Register(params)
           .then(res => {
             //console.log(res);
-              if(res.status == 0) {
+              if(res.status == 1) {
                 this.$message({
                     showClose: true,
                     message: '注册成功',
@@ -165,7 +165,7 @@ export default {
               }else{
                 this.$message({
                     showClose: true,
-                    message: '注册失败',
+                    message: res.status == 0?'已注册':'注册失败',
                     type: 'error'
                 });
               }
