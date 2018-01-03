@@ -25,6 +25,7 @@
             <el-table-column align="center" label="下载">
             	<template slot-scope="scope">
               		<el-button type="primary" size="small" @click="handleDownLoad(scope.row)">下载</el-button>
+              		<el-button type="success" size="small" @click="handleUgliy(scope.row)">压缩</el-button>
             	</template>
           	</el-table-column>
 
@@ -127,6 +128,19 @@ export default {
 	    	//window.location.href = 'http://10.30.61.208:8084/test/download?floder='+dir+'&'+'token='+localStorage.getItem('user_token');
 	    	window.location.href = 'http://miaoto.com.cn:8084/test/download?floder='+dir+'&'+'token='+localStorage.getItem('user_token');
 	    	//window.location.href = 'http://miaoto.com.cn:8084/userinfo/download?floder='+dir;
+	    },
+	    //压缩
+	    handleUgliy(rowData){
+	    	var dir = '';
+	    	for(var i=1;i<this.paths.length;i++){
+	    		dir += '/'+this.paths[i];
+	    	}
+	    	if(dir==''){
+	    		dir = '/'+rowData.floder;
+	    	}else{
+	    		dir +=   '/'+rowData.floder;
+	    	}
+	    	window.location.href = 'http://miaoto.com.cn:8084/test/tar?floder='+dir+'&'+'token='+localStorage.getItem('user_token');
 	    },
 	    inFolder(folderName){
 	    	this.paths.push(folderName);
