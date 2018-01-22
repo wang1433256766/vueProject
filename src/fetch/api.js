@@ -178,6 +178,13 @@ export default {
 
     GetWebOpiUrl(){
         return fetch_post('/webopi_url')
+    },
+
+    /**
+     * 压缩
+     */
+    HandleUgliy(params){
+        return fetch_get('/test/tar', params)
     }
      
 }

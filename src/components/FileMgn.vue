@@ -24,7 +24,7 @@
 
             <el-table-column align="center" label="下载">
             	<template slot-scope="scope">
-              		<el-button type="primary" size="small" @click="handleDownLoad(scope.row)">下载</el-button>
+              		<el-button v-if="!scope.row.folder" type="primary" size="small" @click="handleDownLoad(scope.row)">下载</el-button>
               		<el-button type="success" size="small" @click="handleUgliy(scope.row)">压缩</el-button>
             	</template>
           	</el-table-column>
@@ -84,6 +84,7 @@ export default {
 			};
 			api.GetUserFileList(params)
 				.then(res => {
+					console.log(res);
 					if(res.status == 1){
 						this.tableData = res.data.fileList;
 						this.total = res.data.total;
@@ -125,22 +126,47 @@ export default {
 	    	}else{
 	    		dir +=   '/'+rowData.floder;
 	    	}
-	    	//window.location.href = 'http://10.30.61.208:8084/test/download?floder='+dir+'&'+'token='+localStorage.getItem('user_token');
+	    	// window.location.href = 'http://10.30.61.208:8084/test/download?floder='+dir+'&'+'token='+localStorage.getItem('user_token');
 	    	window.location.href = 'http://miaoto.com.cn:8084/test/download?floder='+dir+'&'+'token='+localStorage.getItem('user_token');
-	    	//window.location.href = 'http://miaoto.com.cn:8084/userinfo/download?floder='+dir;
 	    },
 	    //压缩
 	    handleUgliy(rowData){
-	    	var dir = '';
+	    	var dir = '',listDir='';
 	    	for(var i=1;i<this.paths.length;i++){
 	    		dir += '/'+this.paths[i];
+	    		listDir += '/'+this.paths[i];
 	    	}
 	    	if(dir==''){
 	    		dir = '/'+rowData.floder;
 	    	}else{
 	    		dir +=   '/'+rowData.floder;
 	    	}
-	    	window.location.href = 'http://miaoto.com.cn:8084/test/tar?floder='+dir+'&'+'token='+localStorage.getItem('user_token');
+	    	if(listDir == ''){
+	    		listDir = '/';
+	    	}
+	    	let params = {
+				floder: dir
+			};
+			api.HandleUgliy(params)
+				.then(res => {
+					if(res.status == 1){
+	    				this.$notify({
+				          	title: '',
+				          	message: '压缩成功',
+				          	type: 'success'
+				        });
+				        this.currentPage = 1;
+				        this.getUserFileList(listDir)
+	    			}else{
+	    				this.$notify.error({
+					        title: '失败',
+					        message: '压缩失败'
+				        });
+	    			}
+				})
+				.catch(error => {
+					console.log(error);
+				})
 	    },
 	    inFolder(folderName){
 	    	this.paths.push(folderName);
@@ -148,6 +174,7 @@ export default {
 	    	for(var i=1;i<this.paths.length;i++){
 	    		dir += '/'+this.paths[i];
 	    	}
+	    	this.currentPage = 1;
 	    	this.getUserFileList(dir);
 	    },
 	    backFolder(folderName){
